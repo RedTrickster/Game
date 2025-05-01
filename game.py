@@ -8,17 +8,24 @@ st.write("""
 Very *scary*!
 """)
 
-df = pd.read_json('/Users/caedenshaw/Desktop/School 2025/Robotics & Coding/Caeden Shaw R&C Assesment/quiz_dataset_extended-1.json')
-user_topic = st.text_input("What topic would you like to do? (History, Geography, Math, Astromony, Computer Science): ")
-data = df[df.topic == user_topic]
 # Initialize session state variables
-if "index" not in st.session_state:
-    st.session_state.data = data
-    st.session_state.topic = user_topic
+if "initialized" not in st.session_state:
+    st.session_state.initialized = False
+    st.session_state.topic = ""
     st.session_state.index = 0
     st.session_state.score = 0
     st.session_state.user_answers = []
     st.session_state.finished = False
+    st.session_state.questions = []
+
+# Topic selection phase
+if not st.session_state.initialized:
+    user_topic = st.text_input("What topic would you like to do? (History, Geography, Math, Astronomy, Computer Science): ")
+    
+    if st.button("Start Quiz") and user_topic:
+        df = pd.read_json('quiz_dataset_extended-1.json')
+        data = df[df.topic == user_topic]
+"""        
 if not st.session_state.finished:
     question = data.iloc[st.session_state.index]["question"]
     correct_answer = data.iloc[st.session_state.index]["answer"]
@@ -40,3 +47,7 @@ if not st.session_state.finished:
         else:
             st.error("NONONONO",icon="🚨")
     st.success(f"Well Done! You did all 5 questions! You can now leave freely. Your final score was {st.session_state.score}!")
+
+
+
+    """
