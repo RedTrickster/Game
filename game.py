@@ -25,6 +25,11 @@ if not st.session_state.initialized:
     if st.button("Start Quiz") and user_topic:
         df = pd.read_json('quiz_dataset_extended-1.json')
         data = df[df.topic == user_topic]
+        if len(data) >= 5:
+            # Select 5 random questions if there are enough
+            random_indices = random.sample(range(len(data)), 5)
+            st.session_state.questions = [data.iloc[i] for i in random_indices]
+        else:
 """        
 if not st.session_state.finished:
     question = data.iloc[st.session_state.index]["question"]
