@@ -1,5 +1,5 @@
 # GAme
 # codebob:
 cd .. 
-cd Game
+to VS Folder
 source codebob/bin/activate
