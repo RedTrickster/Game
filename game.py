@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import random
 import json
+import random
 
 st.write("""
 # AHHHH! This is a very scary quiz!
@@ -24,7 +25,14 @@ if not st.session_state.initialized:
     
     if st.button("Start Quiz") and user_topic:
         df = pd.read_json('quiz_dataset_extended-1.json')
+        print(type(df))
+        print(df)
         data = df[df.topic == user_topic]
+        print(data)
+        if len(data) >= 5:
+            for i in range((len(data))):
+                print(i)
+            
 """        
 if not st.session_state.finished:
     question = data.iloc[st.session_state.index]["question"]
