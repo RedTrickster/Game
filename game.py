@@ -30,8 +30,10 @@ if not st.session_state.initialized:
         data = df[df.topic == user_topic]
         print(data)
         if len(data) >= 5:
-            for i in range((len(data))):
-                print(i)
+            random_indices = random.sample(range(len(data)), 5)
+            st.session_state.questions = [data.iloc[i] for i in random_indices]  
+        else:
+             st.session_state.questions = [for i in range(len(data))]
             
 """        
 if not st.session_state.finished:
