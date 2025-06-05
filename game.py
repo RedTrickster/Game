@@ -39,22 +39,28 @@ if not st.session_state.initialized:
 elif not st.session_state.finished:
     st.write(f"Question {st.session_state.index + 1} of {len(st.session_state.questions)}")
     question = st.session_state.questions[st.session_state.index]["question"]
-    correct_answer = st.session_state.questions[st.session_state.index]["answer"]
-    # user_answer = st.text_input("ANSWER!!!!!!!", key=f"q_{st.session_state.index}")
-    # print(question)
-    # print(user_answer)
-    # if st.button("Submit"):
-    #     st.session_state.user_answers.append({
-    #         "question": question,
-    #         "your_answer": user_answer,
-    #         "correct_answer": correct_answer[0],
-    #         "is_correct": user_answer.lower() == correct_answer[0].lower()
-    #     })
-    #     print(correct_answer[0])
-    #     if str(correct_answer[0]) == str(user_answer):
-    #         st.success("WOWOWOWOW",icon="✅")
-    #         quest.remove(question)
-    #         score += 1
-    #     else:
-    #         st.error("NONONONO",icon="🚨")
-    # st.success(f"Well Done! You did all 5 questions! You can now leave freely. Your final score was {st.session_state.score}!")
+    correct_answer = st.session_state.questions[st.session_state.index]["correct_answer"]
+    user_answer = st.text_input(f"{question} \nANSWER!!!!!!!", key=f"q_{st.session_state.index}")
+
+    if st.button("Submit"):
+        is_correct = user_answer == correct_answer
+        st.session_state.user_answers.append({
+            "question": question,
+            "your_answer": user_answer,
+            "correct_answer": correct_answer[0],
+            "is_correct": user_answer.lower() == correct_answer[0].lower()
+        })
+        print(correct_answer[0]) 
+        print(question)
+        print(user_answer)
+        print(is_correct)
+        print(correct_answer)
+
+        if is_correct == True:
+            st.success("WOWOWOWOW",icon="✅")
+            st.session_state.score += 1
+        else:
+            st.error("NONONONO",icon="🚨")
+        st.session_state.index += 1
+        st.rerun()
+# st.success(f"Well Done! You did all 5 questions! You can now leave freely. Your final score was {st.session_state.score}!")
