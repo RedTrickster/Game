@@ -25,7 +25,7 @@ if not st.session_state.initialized:
 
     if st.button("Start Quiz") and user_topic:
         df = pd.read_json('quiz_dataset_extended-1.json')
-        data = df[df.topic == user_topic]
+        data = df[df.topic.str.lower() == user_topic]
         if len(data) >= 5:
             random_indices = random.sample(range(len(data)), 5)
             st.session_state.questions = [data.iloc[i] for i in random_indices]  
@@ -37,24 +37,25 @@ if not st.session_state.initialized:
         st.rerun()
 
 elif not st.session_state.finished:
-    st.write(f"Question {st.session_state.index + 1} of {len(st.session_state.questions)}")
-    question = st.session_state.questions[st.session_state.index]["question"]
-    correct_answer = st.session_state.questions[st.session_state.index]["correct_answer"]
-    user_answer = st.text_input(f"{question} \nANSWER!!!!!!!", key=f"q_{st.session_state.index}")
+    if session_state.index < len(st.session_state.questions):
+        st.write(f"Question {st.session_state.index + 1} of {len(st.session_state.questions)}")
+        question = st.session_state.questions[st.session_state.index]["question"]
+        correct_answer = st.session_state.questions[st.session_state.index]["correct_answer"]
+        user_answer = st.text_input(f"{question} \nANSWER!!!!!!!", key=f"q_{st.session_state.index}")
 
-    if st.button("Submit"):
-        is_correct = user_answer == correct_answer
-        st.session_state.user_answers.append({
-            "question": question,
-            "your_answer": user_answer,
-            "correct_answer": correct_answer[0],
-            "is_correct": user_answer.lower() == correct_answer[0].lower()
-        })
-        print(correct_answer[0]) 
-        print(question)
-        print(user_answer)
-        print(is_correct)
-        print(correct_answer)
+        if st.button("Submit"):
+            is_correct = user_answer == correct_answer
+            st.session_state.user_answers.append({
+                "question": question,
+                "your_answer": user_answer,
+                "correct_answer": correct_answer[0],
+                "is_correct": user_answer.lower() == correct_answer[0].lower()
+            })
+            print(correct_answer[0]) 
+            print(question)
+            print(user_answer)
+            print(is_correct)
+            print(correct_answer)
 
         if is_correct == True:
             st.success("WOWOWOWOW",icon="✅")
@@ -63,4 +64,5 @@ elif not st.session_state.finished:
             st.error("NONONONO",icon="🚨")
         st.session_state.index += 1
         st.rerun()
-# st.success(f"Well Done! You did all 5 questions! You can now leave freely. Your final score was {st.session_state.score}!")
+    else:
+        st.success(f"Well Done! You did all 5 questions! You can now leave freely. Your final score was {st.session_state.score}!")
