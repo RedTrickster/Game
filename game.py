@@ -37,14 +37,14 @@ if not st.session_state.initialized:
         st.rerun()
 
 elif not st.session_state.finished:
-    if session_state.index < len(st.session_state.questions):
+    if st.session_state.index < len(st.session_state.questions):
         st.write(f"Question {st.session_state.index + 1} of {len(st.session_state.questions)}")
         question = st.session_state.questions[st.session_state.index]["question"]
         correct_answer = st.session_state.questions[st.session_state.index]["correct_answer"]
         user_answer = st.text_input(f"{question} \nANSWER!!!!!!!", key=f"q_{st.session_state.index}")
 
         if st.button("Submit"):
-            is_correct = user_answer == correct_answer
+            is_correct = user_answer.lower() == correct_answer.lower()
             st.session_state.user_answers.append({
                 "question": question,
                 "your_answer": user_answer,
@@ -56,13 +56,19 @@ elif not st.session_state.finished:
             print(user_answer)
             print(is_correct)
             print(correct_answer)
-
-        if is_correct == True:
-            st.success("WOWOWOWOW",icon="✅")
-            st.session_state.score += 1
-        else:
-            st.error("NONONONO",icon="🚨")
-        st.session_state.index += 1
-        st.rerun()
+            if is_correct == True:
+                st.session_state.score += 1
+                st.success("WOWOWOWOW",icon="✅")
+            else:
+                st.error("NONONONO",icon="🚨")
+                
+            if st.button("Next"):
+                print("AHHH")
+                st.rerun()
+            st.session_state.index += 1
     else:
         st.success(f"Well Done! You did all 5 questions! You can now leave freely. Your final score was {st.session_state.score}!")
+
+    
+
+        
