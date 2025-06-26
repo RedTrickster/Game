@@ -1,4 +1,4 @@
-# GAme
+# Game
 # codebob:
 cd .. 
 to VS Folder
