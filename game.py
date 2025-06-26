@@ -68,7 +68,3 @@ elif not st.session_state.finished:
             st.session_state.index += 1
     else:
         st.success(f"Well Done! You did all 5 questions! You can now leave freely. Your final score was {st.session_state.score}!")
-
-    
-
-        
